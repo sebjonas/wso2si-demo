@@ -1,0 +1,38 @@
+{
+   "templateGroup": {
+      "uuid": "fraud-template-group",
+      "name": "Fraud Template Group",
+      "ruleTemplates": [
+         {
+            "uuid": "fraud-template",
+            "name": "Fraud Template",
+            "type": "template",
+            "instanceCount": "many",
+            "script": "",
+            "templates": [
+               {
+                  "type": "siddhiApp",
+                  "content": "    @App:name(\"FraudulentCardUse\")\n    @App:description(\"Detect fraudulent use of a credit card.\")\n\n    @source(type='kafka',\n            topic.list='trade-stream',\n            partition.no.list='0',\n            threading.option='single.thread',\n            group.id=\"group\",\n            bootstrap.servers='localhost:9092',\n            @map(type='json'))\n    define stream TradeStream(creditCardNo string, amount double);\n\n    @sink(type='kafka',\n        topic='suspicious-trade-stream',\n        bootstrap.servers='localhost:9092',\n        partition.no='0',\n        @map(type='json'))\n    @sink(type='log')\n    define stream SuspiciousTradeStream(creditCardNo string, totalAmount double, totalCount long);\n\n    @info(name='SuspiciousTrade')\n    from TradeStream#window.time(${window} sec)\n    select \n        creditCardNo, \n        sum(amount) as totalAmount,\n        count(creditCardNo) as totalCount\n    group by creditCardNo \n    having totalAmount > ${totalAmount} and totalCount > ${totalCount}\n    insert into SuspiciousTradeStream;\n"
+               }
+            ],
+            "properties": {
+               "window": {
+                  "fieldName": "Time Window",
+                  "description": "Time Window in seconds",
+                  "defaultValue": "20"
+               },
+               "totalAmount": {
+                  "fieldName": "Total Amount",
+                  "description": "Total Amount (greater than)",
+                  "defaultValue": "1000.0"
+               },
+               "totalCount": {
+                  "fieldName": "Total Count",
+                  "description": "Total Count (greater than)",
+                  "defaultValue": "3"
+               }
+            }
+         }
+      ]
+   }
+}
