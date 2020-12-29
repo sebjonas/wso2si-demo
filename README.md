@@ -30,12 +30,12 @@ Clone this repository to your local machine: ```git clone https://github.com/seb
   * [Execute](#execute)
   * [View](#view)
   * [Stop](#stop)
-- [Kafka](kafka/README.md)
-- [RDMS](rdms/README.md)
-- [Metrics](metrics/README.md)
-- [File](file/README.md)
-- [Monitor](monitor/README.md)
-- [Rules](rules/README.md)
+- [Kafka](kafka)
+- [RDMS](rdms)
+- [Metrics](metrics)
+- [File](file)
+- [Monitor](monitor)
+- [Rules](rules)
 
 # Getting started
 
