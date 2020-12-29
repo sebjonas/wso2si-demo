@@ -78,7 +78,7 @@ insert into SuspiciousTradeStream;
 
 Events subscribed to from the trade stream where they will be grouped by credit card number and if the total amount is more than 1000 and total number of events are more than 3 - all within a 20 seconds time period - then a new event will be created and inserted to the suspicious trade stream.
 
-<img src="/img/_fraudulentcarduse.png" width="400">
+<img src="/img/fraudulentcarduse.png" width="400">
 
 ## Execute
 From the **Streaming Integrator Tooling** menu click **Run**.
