@@ -108,7 +108,7 @@ Now change the business rule configuration:
 ## View
 The expected outcome in the **suspicious-trade-stream** topic:
 ```
-{"event":{"creditCardNo":"143-90099-23431","totalAmount":12000.0,"totalCount":3}}
+{"event":{"creditCardNo":"143-90099-23431","totalAmount":12000.0,"totalCount":2}}
 ```
 
 ## Stop

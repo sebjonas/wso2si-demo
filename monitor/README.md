@@ -129,7 +129,75 @@ Configure random event simulation as follows:
 10. Save the simulator configuration
 11. The newly created simulator would be listed under **Active Feed Simulations** of **Feed Simulation** tab
 12. Click on the **start** button (Arrow symbol) next to the newly created simulator
- 
+
+## Extra
+
+If you would like to simulate data using Postman:
+
+1. Add a new POST request for ```http://localhost:9200/frauds/_doc```
+2. Define the body:
+    ```
+    {
+        "timestamp": "{{timestamp}}",
+        "creditCardNo": "{{creditCardNo}}",
+        "suspiciousTrader": "{{suspiciousTrader}}",
+        "coordinates": "{{coordinates}}",
+        "amount": "{{amount}}",
+        "currency": "{{currency}}"
+    }
+    ```
+3. Define the pre-request script:
+    ```
+    var moment = require('moment');
+    var d = new Date(_.random(2020,2020), _.random(0,11), _.random(1,28), _.random(1,12), _.random(1,60), _.random(1,60));
+
+    var month1 = ("0" + (d.getMonth() + 1)).slice(-2); 
+    var date1 = ("0" + d.getDate()).slice(-2); 
+    var hour1 = ("0" + d.getHours()).slice(-2); 
+    var minute1 = ("0" + d.getMinutes()).slice(-2); 
+    var second1 = ("0" + d.getSeconds()).slice(-2); 
+
+    var timestamp = d.getFullYear()  + "-" + month1 + "-" + date1 + " " + hour1 + ":" + minute1 + ":" + second1;
+
+    pm.environment.set('timestamp', timestamp);
+
+    var cards = ["143-90099-23431", 
+                "143-90099-23432", 
+                "143-90099-23433", 
+                "143-90099-23434",
+                "143-90099-23435"];
+    pm.environment.set("creditCardNo", cards[_.random(0,4)]);
+
+    var traders = ["1-234", 
+                "1-433",
+                "1-767",
+                "1-167",
+                "1-267",
+                "1-367",
+                "1-467",
+                "1-567"];
+    pm.environment.set("suspiciousTrader", traders[_.random(0,7)]);
+
+    pm.sendRequest({
+        url: "https://api.3geonames.org/?randomland=yes&json=1",
+        method: "GET",
+        header: {
+            "content-type": "application/json",
+            "accept": "application/json"
+        },
+        body: {}
+    }, function (err, res) {
+        console.log(res.json().nearest.latt + "," + res.json().nearest.longt);
+        pm.environment.set("coordinates", res.json().nearest.latt + "," + res.json().nearest.longt);
+    });
+
+    pm.environment.set('amount', _.random(5,50)*100.0);
+
+    var currencies = ["USD", "SEK", "CHF", "EUR", "CNY"];
+    pm.environment.set("currency", currencies[_.random(0,4)]);
+    ```
+4. Use Runner to execute a few iteration.
+
 ## View
 Open a **Kibana Dashboard** and monitor the result.
 
