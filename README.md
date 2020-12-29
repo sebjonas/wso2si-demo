@@ -30,7 +30,7 @@ Clone this repository to your local machine: ```git clone https://github.com/seb
   * [Execute](#execute)
   * [View](#view)
   * [Stop](#stop)
-- [Kafka](#kafka)
+- [Kafka](kafka/README.md)
 - [RDMS](#rdms)
 - [Metrics](#metrics)
 - [File](#file)
