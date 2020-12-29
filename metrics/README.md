@@ -1,9 +1,10 @@
 # Metrics
+This section explains how WSO2 Streaming Integrator servers can be configured to publish data to Prometheus and display statistics in Grafana dashboards.
 
 ## Download
 Download the **WSO2 Streaming Integrator Server** ZIP-archive distribution from [WSO2 Streaming Integrator site](https://wso2.com/integration/streaming-integrator/) (click **Download** button) and extract it to a location of your choice. Hereafter, the extracted location is referred to as <SI_HOME>.
 
-Download and install **Prometheus & Grafana** and configure according to the [instruction](https://ei.docs.wso2.com/en/latest/streaming-integrator/admin/setting-up-grafana-dashboards/). Here's a [Youtube video tutorial](https://youtu.be/rhmtkPOx0Gw). Hereafter, the extracted Prometheus location is referred to as <PROM_HOME> and extracted Grafan location is referred to as <GRAF_HOME>.
+Download and install **[Prometheus](https://prometheus.io/download/)** & **[Grafana](https://grafana.com/grafana/download)** and configure according to the [instruction](https://ei.docs.wso2.com/en/latest/streaming-integrator/admin/setting-up-grafana-dashboards/). Here's a [Youtube video tutorial](https://youtu.be/rhmtkPOx0Gw). Hereafter, the extracted Prometheus location is referred to as <PROM_HOME> and extracted Grafana location is referred to as <GRAF_HOME>.
 
 ## Run
 Start the **Streaming Integrator Server** by issuing one of the following commands from the <SI_HOME>/bin directory.

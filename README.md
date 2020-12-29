@@ -3,6 +3,7 @@
 This repository contains instructions on how to install and run WSO2 Streaming Integrator to make use of **Siddhi**.
 
 For a more in-depth understanding of WSO2 Streaming Integrator: 
+- [Architecture](https://ei.docs.wso2.com/en/latest/streaming-integrator/overview/architecture/)
 - [Product documentation](https://ei.docs.wso2.com/en/latest/streaming-integrator/overview/overview/)
 - [Siddhi documentation](https://siddhi.io)
 
@@ -93,6 +94,7 @@ Configure random event simulation as follows:
 6. Select **FraudulentCardUse** as Siddhi App Name
 7. Select **TradesStream** as StreamName
 8. For **creditCardNo** change config type to **Regex based** and give the pattern as **143-90099-2343[0-9]{1}**.
+  Sites to try out regex (https://regex101.com and https://regexr.com)
 9. Keep **Primitive Based** as the config type for **amount** but change from **100** to less than **1000** with *1* decimal.
 10. Save the simulator configuration
 11. The newly created simulator would be listed under *Active Feed Simulations** of **Feed Simulation** tab

@@ -1,4 +1,5 @@
 # Rules
+The Business Rules Manager allows you to define templates and from them generate business rules that can easily be modified by the business.
 
 ## Download
 Download the **WSO2 Streaming Integrator Server** ZIP-archive distribution from [WSO2 Streaming Integrator site](https://wso2.com/integration/streaming-integrator/) (click **Download** button) and extract it to a location of your choice. Hereafter, the extracted location is referred to as <SI_HOME>.

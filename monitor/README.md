@@ -1,4 +1,5 @@
 # Monitor
+Elasticsearch sink implementation uses Elasticsearch indexing document for underlying data storage. The events that are published from the sink will be converted into elasticsearch index documents.
 
 ## Download
 **MySQL Server**:
@@ -133,6 +134,17 @@ Configure random event simulation as follows:
 Open a **Kibana Dashboard** and monitor the result.
 
 ![kibana](/img/kibana.png)
+
+Run this command if you would like to delete all data: 
+```
+curl --location --request POST 'http://localhost:9200/frauds/_delete_by_query' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "query": {
+    "match_all":{}
+  }
+}'
+```
 
 ## Stop
 Stop the Feed Simulation, stop the Siddhi app and press ctrl-C in the terminal where you started Streaming Integrator Tooling. In a terminal window type in ```docker-compose down -v``` to stop Elasticsearch and Kibana.
