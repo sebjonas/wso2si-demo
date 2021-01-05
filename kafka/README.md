@@ -101,4 +101,4 @@ Stop the running services:
 2. Press ctrl-C in the terminals running Kafka producer and consumer
 3. Press ctrl-C in the terminals running Kafka and Zookeeper (in that order)
 
-[back to toc](#table-of-content)
+[back to toc](../README.md#table-of-content)
