@@ -7,6 +7,7 @@ Let's join the trade stream with data in a database table. This application demo
 1. Start Docker Desktop
 2. Navigate to ```https://hub.docker.com/_/mysql``` to access documentation
 3. Run ```docker pull mysql:latest```
+    * To download images you have to change network from CORP1 due to restrictions.
 
 **MySQLWorkbench**:
 1. Navigate to ```https://dev.mysql.com/downloads/workbench/```
@@ -17,7 +18,12 @@ Let's start the MySQL server, create a db, a schema and insert some rows to join
 
 **MySQL Server**:
 1. Start Docker Desktop
-2. Run ```docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql:latest```
+2. Run ```docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql:latest mysqld --default-authentication-plugin=mysql_native_password```
+
+**MySQL Driver**
+1. Download the MySQL JDBC driver from the [MySQL site](https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.45.tar.gz).
+2. Unzip the archive.
+3. Copy the ```mysql-connector-java-5.1.45-bin.jar``` to the <SIT_HOME>/lib directory.
 
 **MySQLWorkbench**:
 1. Open MySQL Workbench
@@ -26,8 +32,8 @@ Let's start the MySQL server, create a db, a schema and insert some rows to join
 
 **Streaming Integrator Tooling**:
 
-* For Windows: ```streaming-integrator-tooling.bat```
-* For Linux: ```./streaming-integrator-tooling.sh```
+* For Windows: ```.\tooling.bat```
+* For Linux: ```./tooling.sh```
 
 ## App
 Open **Streaming Integrator Tooling** and select **New** from the menu then copy and paste the code below into the editor and save it as 'BlockedCardUse'.
@@ -61,6 +67,12 @@ insert into SuspiciousTradeStream;
 
 ## Execute
 From the **Streaming Integrator Tooling** menu click **Run**.
+
+If the **Streaming Integrator Tooling** is missing the MySQL extension, follow this:
+1. Click Tools->Extension Installer
+2. Type in MySQL
+3. Click Install button and then confirm
+4. Close dialog and Restart **Streaming Integrator Tooling**
 
 ## Simulate
 Configure random event simulation as follows:

@@ -1,12 +1,12 @@
 # File
-This sample demonstrates how to use external time windows for a fraud detection use-case. In this sample, we look for two or more transactions done within a very short period of time and send an alert immediately when such an occurrence is detected.
+This sample demonstrates how to use external timestamps in a time window for a fraud detection use-case. In this sample, we look for two or more transactions done within a very short time period and send an alert immediately when such an occurrence is detected.
 
 ## Run
 
 Start the **Streaming Integrator Tooling** by issuing one of the following commands from the <SIT_HOME>/bin directory.
 
-* For Windows: ```streaming-integrator-tooling.bat```
-* For Linux: ```./streaming-integrator-tooling.sh```
+* For Windows: ```.\tooling.bat```
+* For Linux: ```./tooling.sh```
 
 ## Open
 Access UIs:
@@ -63,7 +63,7 @@ Configure random event simulation as follows:
 5. Click on **Add Simulation Source**
 6. Select **CSVFileExternalTime** as Siddhi App Name
 7. Select **TradesFile** as StreamName
-8. Click on Upload and select the '/csv/trades.csv'.
+8. Click on Upload and select the '/file/events.csv'.
 9. Save the simulator configuration
 10. The newly created simulator would be listed under *Active Feed Simulations** of **Feed Simulation** tab
 11. Click on the **start** button (Arrow symbol) next to the newly created simulator

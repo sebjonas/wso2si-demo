@@ -1,0 +1,32 @@
+@App:name("CSVFileExternalTime")
+@App:description("Load transactions from file to detect fraudulent use of a credit cards.")
+
+define window TradeStreamWindow (eventTime long, creditCardNo string, amount double) externalTime(eventTime, 20 sec);
+
+define stream TradeFile(timestamp string, creditCardNo string, amount double);
+define stream TradeStream(eventTime long, creditCardNo string, amount double);
+
+@sink(type='log')
+define stream SuspiciousTradeStream(creditCardNo string, totalAmount double, totalCount long);
+
+@info(name='TradeFile')
+from TradeFile
+select 
+    time:timestampInMilliseconds(timestamp) as eventTime, 
+    creditCardNo, 
+    amount
+insert into TradeStream;
+
+@info(name='TradeWindow')
+from TradeStream
+insert into TradeStreamWindow;
+
+@info(name='SuspiciousTradeStream')
+from TradeStreamWindow
+select 
+    creditCardNo, 
+    sum(amount) as totalAmount,
+    count(creditCardNo) as totalCount
+group by creditCardNo
+having totalAmount > 10000.0 and totalCount > 1
+insert into SuspiciousTradeStream;

@@ -12,13 +12,13 @@ Start the **Streaming Integrator Server** by issuing one of the following comman
 
 Start the **Streaming Integrator Tooling** by issuing one of the following commands from the <SIT_HOME>/bin directory.
 
-* For Windows: ```streaming-integrator-tooling.bat```
-* For Linux: ```./streaming-integrator-tooling.sh```
+* For Windows: ```.\tooling.bat```
+* For Linux: ```./tooling.sh```
 
 # Open
 Access UIs:
 
-1. **Business Rules Template Editor** via [http://192.168.86.23:9390/template-editor](http://localhost:9390/template-editor)
+1. **Business Rules Template Editor** via [http://localhost:9390/template-editor](http://localhost:9390/template-editor)
 2. **Business Rules Manager** via https://localhost:9743/business-rules (admin/admin)
 
 ## App
@@ -38,20 +38,12 @@ In the **Business Rules Template Editor** :
     @App:name("FraudulentCardUse")
     @App:description("Detect fraudulent use of a credit card.")
 
-    @source(type='kafka',
-            topic.list='trade-stream',
-            partition.no.list='0',
-            threading.option='single.thread',
-            group.id="group",
-            bootstrap.servers='localhost:9092',
+    @Source(type = 'http',
+            receiver.url='http://localhost:8007/tradeStream',
+            basic.auth.enabled='false',
             @map(type='json'))
     define stream TradeStream(creditCardNo string, amount double);
 
-    @sink(type='kafka',
-        topic='suspicious-trade-stream',
-        bootstrap.servers='localhost:9092',
-        partition.no='0',
-        @map(type='json'))
     @sink(type='log')
     define stream SuspiciousTradeStream(creditCardNo string, totalAmount double, totalCount long);
 
@@ -85,19 +77,26 @@ In the **Business Rules Template Editor** :
 
 In the **Business Rules Manager** :
 
-1. Click the plus icon.
+1. Click the plus (Create) icon.
 2. Click **From Template**
 3. Click **Fraud Template Group**
 4. Select **Fraud Template**
 5. Enter **FraudulentCardUse** as Business rule name
-6.
+6. Click **Save & Deploy**
 
 ## Simulate
 
-1. Navigate to <KAFKA_HOME> directory and issue the following command:
-    ```bin/kafka-console-producer.sh --broker-list localhost:9092 --topic trade-stream```
-2. Paste in the following event a number of times:
-    ```[{"event": {"creditCardNo":"143-90099-23431", "amount":5000.0}}]```
+Use REST endpoint at port 8007 to send in events to the Siddhi app.
+1. Open a terminal window.
+2. Send in a couple of events.
+    For Windows: 
+    ```
+    Invoke-WebRequest -Uri http://localhost:8007/tradeStream -Method POST -Body '{"event": {"creditCardNo": "143-90099-23431","amount": 3000.0}}'
+    ```
+    For Linux: 
+    ```
+    curl --location --request POST 'http://localhost:8007/tradeStream' --header 'Content-Type: application/json' --data-raw '{"event": {"creditCardNo":"143-90099-23431","amount": 3000.0}}'
+    ```
 
 Now change the business rule configuration:
 1. Open **Business Rules Manager**
@@ -106,7 +105,7 @@ Now change the business rule configuration:
 4. Run the simulation again
 
 ## View
-The expected outcome in the **suspicious-trade-stream** topic:
+The expected outcome in the server log:
 ```
 {"event":{"creditCardNo":"143-90099-23431","totalAmount":12000.0,"totalCount":2}}
 ```
@@ -115,8 +114,6 @@ The expected outcome in the **suspicious-trade-stream** topic:
 
 Stop the running services:
 1. Stop the Siddhi app and press ctrl-C in the terminal where you started Streaming Integrator Tooling
-2. Press ctrl-C in the terminals running Kafka producer and consumer
-3. Press ctrl-C in the terminals running Kafka and Zookeeper (in that order)
 
 [back to toc](../README.md)
 

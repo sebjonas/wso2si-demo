@@ -1,0 +1,30 @@
+@App:name("EnrichedSuspiciousTrade")
+@App:description('')
+
+@sink(type='log')
+define stream SuspiciousTradeStream(creditCardNo string, traderId string, amount double, currency string);
+
+@Store(type="elasticsearch", hostname="localhost", username="elastic", password="changeme", port='9200', index.name = 'frauds', index.type='_doc') 
+@sink(type='log')
+define table PersistenceTable (timestamp string, creditCardNo string, suspiciousTrader string, coordinates string, amount double, currency string);
+
+@Store(type="rdbms",
+       jdbc.url="jdbc:mysql://localhost:3306/traderDB?useSSL=false",
+       username="root",
+       password="my-secret-pw" ,
+       jdbc.driver.name="com.mysql.jdbc.Driver")
+@PrimaryKey("traderId")
+define table TraderTable (traderId string, trader string, coord string);
+
+@info(name='EnrichSuspiciousTrade')
+from SuspiciousTradeStream as st join TraderTable as tt
+    on st.traderId == tt.traderId
+select 
+    time:dateFormat(eventTimestamp(), 'yyyy-MM-dd hh:mm:ss') as timestamp,  
+--    time:currentTimestamp() as timestamp, 
+    st.creditCardNo, 
+    tt.trader as suspiciousTrader, 
+    tt.coord as coordinates, 
+    st.amount, 
+    st.currency
+insert into PersistenceTable;

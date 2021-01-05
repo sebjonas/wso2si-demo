@@ -2,54 +2,34 @@
 Let's add Kafka as source and sink for the **TradeStream** and the **SuspiciousTradeStream**.
 
 ## Download
-Download the Kafka broker from the [Apache site](https://ei.docs.wso2.com/en/latest/streaming-integrator/quick-start-guide/quick-start-guide/) and extract it. This directory is referred to as <KAFKA_HOME> from here on.
+Download the Kafka broker from the [Apache site](https://www.apache.org/dyn/closer.cgi?path=/kafka/2.3.0/kafka_2.12-2.3.0.tgz) and extract it. This directory is referred to as <KAFKA_HOME> from here on.
 
 ## Run
 Let's start the Kafka server and create a Kafka topic so that the **FraudulentCardUse** Siddhi application you created can subscribe and publish its output to it.
 
 To start Kafka:
 1. Navigate to the <KAFKA_HOME> directory and start a zookeeper node by issuing the following command.
-    ```sh bin/zookeeper-server-start.sh config/zookeeper.properties```
+    * For Windows: ```.\bin\windows\zookeeper-server-start.bat config\zookeeper.properties```
+    * For Linux: ```sh bin/zookeeper-server-start.sh config/zookeeper.properties```
 2. Navigate to the <KAFKA_HOME> directory and start Kafka server node by issuing the following command.
-    ```sh bin/kafka-server-start.sh config/server.properties```
+    * For Windows: ```.\bin\windows\kafka-server-start.bat config\server.properties```
+    * For Linux: ```sh bin/kafka-server-start.sh config/server.properties```
 
 To create a Kafka topic named **trade-stream** and another named **suspicious-trade-stream**:
 1. Navigate to <KAFKA_HOME> directory and issue the following command:
-    ```bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic trade-stream```
+    * For Windows: ```.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic trade-stream```
+    * For Linux: ```bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic trade-stream```
 2. Navigate to <KAFKA_HOME> directory and issue the following command:
-    ```bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic suspicious-trade-stream```
+    * For Windows: ```.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic suspicious-trade-stream```
+    * For Linux: ```bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic suspicious-trade-stream```
 
 Start the **Streaming Integrator Tooling** by issuing one of the following commands from the <SIT_HOME>/bin directory.
 
-* For Windows: ```streaming-integrator-tooling.bat```
-* For Linux: ```./streaming-integrator-tooling.sh```
+* For Windows: ```.\tooling.bat```
+* For Linux: ```./tooling.sh```
 
 ## App
-Open the **FraudulentCardUse** Siddhi app.
-
-Add a **source** for the TradeStream definition:
-
-```
-@source(type='kafka',
-        topic.list='trade-stream',
-        partition.no.list='0',
-        threading.option='single.thread',
-        group.id="group",
-        bootstrap.servers='localhost:9092',
-        @map(type='json'))
-```
-
-Add a **sink** for the SuspiciousTradeStream definition:
-
-```
-@sink(type='kafka',
-      topic='suspicious-trade-stream',
-      bootstrap.servers='localhost:9092',
-      partition.no='0',
-      @map(type='json'))
-```
-
-The modified app looks like this:
+Open **Streaming Integrator Tooling** and select **New** from the menu then copy and paste the code below into the editor and save it as **FraudulentCardUse**.
 
 ```
 @App:name("FraudulentCardUse")
@@ -79,21 +59,29 @@ select
     sum(amount) as totalAmount,
     count(creditCardNo) as totalCount
 group by creditCardNo 
-having totalAmount > 10000.0 and totalCount > 3
+having totalAmount > 10000.0 and totalCount > 2
 insert into SuspiciousTradeStream;
 ```
 
 ## Execute
+If the **Streaming Integrator Tooling** is missing the Kafka extension, follow this:
+1. Click Tools->Extension Installer
+2. Type in Kafka
+3. Click Install button and then confirm
+4. Close dialog and Restart **Streaming Integrator Tooling**
+
 From the **Streaming Integrator Tooling** menu click **Run**.
 
 ## Consume
 1. Navigate to <KAFKA_HOME> directory and issue the following command:
-    ```bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic suspicious-trade-stream```
+    * For Windows: ```.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic suspicious-trade-stream```
+    * For Linux: ```bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic suspicious-trade-stream```
 
 ## Simulate
 
 1. Navigate to <KAFKA_HOME> directory and issue the following command:
-    ```bin/kafka-console-producer.sh --broker-list localhost:9092 --topic trade-stream```
+    * For Windows: ```.\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic trade-stream```
+    * For Linux: ```bin/kafka-console-producer.sh --broker-list localhost:9092 --topic trade-stream```
 2. Paste in the following sequence of events:
     - ```[{"event": {"creditCardNo":"143-90099-23431", "amount":5000.0}}]```
     - ```[{"event": {"creditCardNo":"143-90099-23431", "amount":4000.0}}]```

@@ -46,8 +46,8 @@ Download the **Streaming Integrator Tooling** ZIP-archive distribution from [WSO
 ## Run
 Start the **Streaming Integrator Tooling** by issuing one of the following commands from the <SIT_HOME>/bin directory.
 
-* For Windows: ```streaming-integrator-tooling.bat```
-* For Linux: ```./streaming-integrator-tooling.sh```
+* For Windows: ```.\tooling.bat```
+* For Linux: ```./tooling.sh```
 
 ## Open
 Access the **Streaming Integrator Tooling** via [http://localhost:9390/editor](http://localhost:9390/editor). The Streaming Integrator Tooling opens as shown below.

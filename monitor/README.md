@@ -2,10 +2,12 @@
 Elasticsearch sink implementation uses Elasticsearch indexing document for underlying data storage. The events that are published from the sink will be converted into elasticsearch index documents.
 
 ## Download
+
 **MySQL Server**:
 1. Start Docker Desktop
 2. Navigate to ```https://hub.docker.com/_/mysql``` to access documentation
 3. Run ```docker pull mysql:latest```
+    * To download images you have to change network from CORP1 due to restrictions.
 
 **MySQLWorkbench**:
 1. Navigate to ```https://dev.mysql.com/downloads/workbench/```
@@ -15,17 +17,18 @@ Elasticsearch sink implementation uses Elasticsearch indexing document for under
 
 1. **MySQL Server**:
     * Start Docker Desktop
-    * Run ```docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql:latest```
+    * Run ```docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql:latest mysqld --default-authentication-plugin=mysql_native_password```
 2. **MySQLWorkbench**:
     * Open MySQL Workbench
     * Connect to your running database instance
     * Open the file ```mysql/configure.sql``` and click Execute
 3. Start the **Streaming Integrator Tooling** by issuing one of the following commands from the <SIT_HOME>/bin directory.
-    * For Windows: ```streaming-integrator-tooling.bat```
-    * For Linux: ```./streaming-integrator-tooling.sh```
+    * For Windows: ```.\tooling.bat```
+    * For Linux: ```./tooling.sh```
 4. Start **Elasticsearch** and **Kibana** by running docker-compose.
-    * ```cd elasticsearch-kibana```
+    * ```cd /monitor```
     * ```docker-compose up -d```
+    * To download images you have to change network from CORP1 due to restrictions.
 
 ## Open
 Access UIs:
@@ -38,46 +41,64 @@ Access UIs:
 Configure **Kibana**:
 
 1.  Create an index:
-    ```
-    curl --location --request PUT 'http://localhost:9200/frauds' \
-    --header 'Content-Type: application/json' \
-    --data-raw ''
-    ```
+    For Windows:
+    * Open a terminal window
+    * Navigate to /monitor
+    * Type in ```.\elastic-create-index.ps1```
+    * Hit return
+    
+    For Linux: 
+    * Open a terminal window
+    * Run the command:
+        ```
+        curl --location --request PUT 'http://localhost:9200/frauds' \
+        --header 'Content-Type: application/json' \
+        --data-raw ''
+        ```
 
 2. Create a mapping:
-    ```
-    curl --location --request PUT 'http://localhost:9200/frauds/_mapping' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "properties": {
-            "timestamp": {
-                "type": "date",
-                "format": "yyyy-MM-dd HH:mm:ss"
-            },
-            "creditCardNo": {
-                "type": "keyword"
-            },
-            "suspiciousTrader": {
-                "type": "keyword"
-            },
-            "coordinates": {
-                "type": "geo_point"
-            },
-            "amount": {
-                "type": "double"
-            },
-            "currency": {
-                "type": "keyword"
+    For Windows:
+    * Open a terminal window
+    * Navigate to /monitor
+    * Type in ```.\elastic-create-mappings.ps1```
+    * Hit return
+    
+    For Linux: 
+    * Open a terminal window
+    * Run the command:
+        ```
+        curl --location --request PUT 'http://localhost:9200/frauds/_mapping' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "properties": {
+                "timestamp": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss"
+                },
+                "creditCardNo": {
+                    "type": "keyword"
+                },
+                "suspiciousTrader": {
+                    "type": "keyword"
+                },
+                "coordinates": {
+                    "type": "geo_point"
+                },
+                "amount": {
+                    "type": "double"
+                },
+                "currency": {
+                    "type": "keyword"
+                }
             }
-        }
-    }'
-    ```
+        }'
+        ```
 3. Import the Dashboard and visualization
     * Click on Manage
     * Click on Kibana->Saved Objects
-    * Click on Import and select the file ```/kibana/export.ndjson```
+    * Click on Import and select the file ```/monitor/export.ndjson```
 
-Open **Streaming Integrator Tooling** and select **New** from the menu then copy and paste the code below into the editor and save it as 'CSVFileExternalTime'.
+Open **Streaming Integrator Tooling** and select **New** from the menu then copy and paste the code below into the editor and save it as 'EnrichedSuspiciousTrade'.
 
 ```
 @App:name("EnrichedSuspiciousTrade")
@@ -112,6 +133,13 @@ select
 insert into PersistenceTable;
 ```
 ## Execute
+
+If the **Streaming Integrator Tooling** is missing the Elasticsearch extension, follow this:
+1. Click Tools->Extension Installer
+2. Type in Elasticseach
+3. Click Install button and then confirm
+4. Close dialog and Restart **Streaming Integrator Tooling**
+
 From the **Streaming Integrator Tooling** menu click **Run**.
 
 ## Simulate
@@ -126,9 +154,10 @@ Configure random event simulation as follows:
 8. For **creditCardNo** change config type to **Regex based** and give the pattern as **143-90099-2343[0-9]{1}**.
 9. For **traderId** change config type to **Regex based** and give the pattern as **(1-234|1-433|1-767|1-167|1-267|1-367|1-467|1-567)**.
 9. Keep **Primitive Based** as the config type for **amount** but change from **100** to less than **1000** with **1** decimal.
-10. Save the simulator configuration
-11. The newly created simulator would be listed under **Active Feed Simulations** of **Feed Simulation** tab
-12. Click on the **start** button (Arrow symbol) next to the newly created simulator
+10. For **currency** change config type to **Regex based** and give the pattern as **(SEK|USD|CHN)**.
+11. Save the simulator configuration
+12. The newly created simulator would be listed under **Active Feed Simulations** of **Feed Simulation** tab
+13. Click on the **start** button (Arrow symbol) next to the newly created simulator
 
 ## Extra
 
@@ -203,17 +232,27 @@ Open a **Kibana Dashboard** and monitor the result.
 
 ![kibana](/img/kibana.png)
 
-Run this command if you would like to delete all data: 
-```
-curl --location --request POST 'http://localhost:9200/frauds/_delete_by_query' \
---header 'Content-Type: application/json' \
---data-raw '{
-  "query": {
-    "match_all":{}
-  }
-}'
-```
+Run this command if you would like to delete all data.
 
+For Windows:
+* Open a terminal window
+* Navigate to /monitor
+* Type in ```.\elastic-delete-data.ps1```
+* Hit return
+
+For Linux:
+* Open a terminal window
+* Run the command:
+    ```
+    curl --location --request POST 'http://localhost:9200/frauds/_delete_by_query' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+    "query": {
+        "match_all":{}
+    }
+    }'
+    ```
+    
 ## Stop
 Stop the Feed Simulation, stop the Siddhi app and press ctrl-C in the terminal where you started Streaming Integrator Tooling. In a terminal window type in ```docker-compose down -v``` to stop Elasticsearch and Kibana.
 
