@@ -31,12 +31,12 @@ Clone this repository to your local machine: ```git clone https://github.com/seb
   * [Execute](#execute)
   * [View](#view)
   * [Stop](#stop)
-- [Kafka](kafka)
-- [RDMS](rdms)
-- [Metrics](metrics)
-- [File](file)
-- [Monitor](monitor)
-- [Rules](rules)
+- [Kafka as Source & Sink](kafka)
+- [RDMS featuring MySQL](rdms)
+- [Metrics using Prometheus and Grafana](metrics)
+- [File as Source](file)
+- [Monitor using Elasticsearch and Kibana](monitor)
+- [Rules for Business Agility](rules)
 
 # Getting started
 
