@@ -256,4 +256,4 @@ For Linux:
 ## Stop
 Stop the Feed Simulation, stop the Siddhi app and press ctrl-C in the terminal where you started Streaming Integrator Tooling. In a terminal window type in ```docker-compose down -v``` to stop Elasticsearch and Kibana.
 
-[back to toc](../README.md)
+[back to toc](../README.md#table-of-content)
