@@ -33,10 +33,12 @@ Clone this repository to your local machine: ```git clone https://github.com/seb
   * [Stop](#stop)
 - [Kafka as Source & Sink](kafka)
 - [RDMS featuring MySQL](rdms)
-- [Metrics using Prometheus and Grafana](metrics)
 - [File as Source](file)
 - [Monitor using Elasticsearch and Kibana](monitor)
 - [Rules for Business Agility](rules)
+- [Metrics using Prometheus and Grafana](metrics)
+- [Docker as hosting service](docker)
+- [Java as hosting service](java)
 
 # Getting started
 
