@@ -1,0 +1,21 @@
+@App:name("FraudulentCardUse")
+@App:description("Detect fraudulent use of a credit card.")
+
+@Source(type = 'http',
+        receiver.url='http://0.0.0.0:8008/tradeStream',
+        basic.auth.enabled='false',
+        @map(type='json'))
+define stream TradeStream(creditCardNo string, amount double);
+
+@sink(type='log')
+define stream SuspiciousTradeStream(creditCardNo string, totalAmount double, totalCount long);
+
+@info(name='SuspiciousTrade')
+from TradeStream#window.time(20 sec)
+select 
+    creditCardNo, 
+    sum(amount) as totalAmount,
+    count(creditCardNo) as totalCount
+group by creditCardNo 
+having totalAmount > 10000.0 and totalCount > 3
+insert into SuspiciousTradeStream;

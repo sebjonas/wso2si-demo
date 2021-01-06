@@ -89,6 +89,6 @@ Open a **Grafana Dashboard** and monitor the result.
 
 Stop the running services:
 1. Stop the Siddhi app and press ctrl-C in the terminal where you started Streaming Integrator Tooling
-4. Press ctrl-C in the terminals running Grafana and Prometheus (in that order)
+2. Press ctrl-C in the terminals running Grafana and Prometheus (in that order)
 
 [back to toc](../README.md#table-of-content)

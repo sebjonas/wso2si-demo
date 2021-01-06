@@ -7,3 +7,5 @@ https://siddhi.io/en/v5.1/docs/siddhi-as-a-java-library/
 # Steps to build and run the project
 1. Build the project by running ```mvn clean install``` from the project root directory.
 2. Try executing the main class *se.seb.App* from your favorite IDE.
+
+[back to toc](../README.md#table-of-content)
