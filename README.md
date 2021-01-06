@@ -35,10 +35,10 @@ Clone this repository to your local machine: ```git clone https://github.com/seb
 - [RDMS featuring MySQL](rdms)
 - [File as Source](file)
 - [Monitor using Elasticsearch and Kibana](monitor)
-- [Rules for Business Agility](rules)
+- [Rules for reuse](rules)
 - [Metrics using Prometheus and Grafana](metrics)
-- [Docker as hosting service](docker)
-- [Java as hosting service](java)
+- [Docker for hosting](docker)
+- [Java for hosting](java)
 
 # Getting started
 
