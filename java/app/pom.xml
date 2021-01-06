@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>se.seb</groupId>
+  <artifactId>app</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>app</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+        <groupId>io.siddhi</groupId>
+        <artifactId>siddhi-core</artifactId>
+        <version>${siddhi.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.siddhi</groupId>
+        <artifactId>siddhi-query-api</artifactId>
+        <version>${siddhi.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.siddhi</groupId>
+        <artifactId>siddhi-query-compiler</artifactId>
+        <version>${siddhi.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.siddhi</groupId>
+        <artifactId>siddhi-annotations</artifactId>
+        <version>${siddhi.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>${testng.version}</version>
+        <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <properties>
+      <!--Make sure to update to the correct Siddhi version-->
+      <siddhi.version>5.1.2</siddhi.version>
+      <testng.version>6.14.3</testng.version>
+  </properties>
+
+</project>
