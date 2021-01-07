@@ -1,13 +1,16 @@
-#
-
 # Steps to Run Siddhi Docker Microservice
 
 1. Pull the the latest Siddhi Runner image from Siddhiio Docker Hub.
     ```docker pull siddhiio/siddhi-runner-alpine:latest```
 2. Start SiddhiApps with the runner config by executing the following docker command.
-    ```docker run -it -p 8008:8008 -v <repo-local-path>/docker/siddhi-apps:/apps -v repo-local-path/docker/siddhi-configs:/configs siddhiio/siddhi-runner-alpine:latest -Dapps=/apps/FraudulentCardUse.siddhi```
-    Example:
-    ```docker run -it -p 8008:8008 -v /Users/jonas/Code/card/wso2si-demo/docker/siddhi-apps:/apps -v /Users/jonas/Code/card/wso2si-demo/docker/siddhi-configs:/configs siddhiio/siddhi-runner-alpine:latest -Dapps=/apps/FraudulentCardUse.siddhi```
+
+    For Windows:
+    
+    ```docker run -it -p 8008:8008 -v <repo-local-path>\docker\siddhi-apps:/apps -v repo-local-path\docker\siddhi-configs:/configs siddhiio/siddhi-runner-alpine:latest -Dapps=/apps/FraudulentCardUse.siddhi```
+
+    For Linux:
+    
+    ```docker run -it -p 8008:8008 -v <repo-local-path>/docker/siddhi-apps:/apps -v repo-local-path/docker/siddhi-configs:/configs siddhiio/siddhi-runner-alpine:latest -Dapps=/apps/FraudulentCardUse.siddhi```    
 
 ## Simulate
 
