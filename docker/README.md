@@ -6,7 +6,7 @@
 
     For Windows:
     
-    ```docker run -it -p 8008:8008 -v <repo-local-path>\docker\siddhi-apps:/apps -v repo-local-path\docker\siddhi-configs:/configs siddhiio/siddhi-runner-alpine:latest -Dapps=/apps/FraudulentCardUse.siddhi```
+    ```docker run -it -p 8008:8008 -v <repo-local-path>\docker\siddhi-apps:/apps -v repo-local-path\docker\siddhi-configs:/configs siddhiio/siddhi-runner-alpine:latest "-Dapps=/apps/FraudulentCardUse.siddhi"```
 
     For Linux:
     
