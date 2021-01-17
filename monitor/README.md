@@ -58,6 +58,7 @@ Configure **Kibana**:
         ```
 
 2. Create a mapping:
+
     For Windows:
     * Open a terminal window
     * Navigate to /monitor
