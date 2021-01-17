@@ -41,6 +41,7 @@ Access UIs:
 Configure **Kibana**:
 
 1.  Create an index:
+
     For Windows:
     * Open a terminal window
     * Navigate to /monitor

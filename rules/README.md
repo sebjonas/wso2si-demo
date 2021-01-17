@@ -72,7 +72,7 @@ In the **Business Rules Template Editor** :
     * Enter **3** as Default Value
 15. Click Save icon in the upp right corner.
 16. Copy the saved .json file to the template folder:
-    ```<WSO2_SI>/wso2/server/resources/businessRules/templates/[filename].json```
+    ```<WSO2_SIT>/wso2/server/resources/businessRules/templates/[filename].json```
 17. Restart the **WSO2 Streaming Integrator**
 
 In the **Business Rules Manager** :
